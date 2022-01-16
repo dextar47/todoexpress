@@ -7,8 +7,10 @@ var methodOverride = require('method-override');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var cors = require('cors');
 
 var app = module.exports = express();
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +31,9 @@ require('./lib/boot')(app, { verbose: !module.parent });
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -43,6 +48,12 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+var debug = require('debug')('todoapp');
+app.set('port', process.env.PORT || 3000);
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
 });
 
 module.exports = app;

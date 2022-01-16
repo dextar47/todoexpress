@@ -20,7 +20,7 @@
  };
  
  exports.list = function(req, res, next){
-   res.render('list', { todos: db.todos });
+   res.json({ todos: db.todos });
  };
  
  exports.edit = function(req, res, next){
@@ -28,7 +28,6 @@
  };
  
  exports.show = function(req, res, next){
-   console.log(req);
    res.render('show', { todo: req.todo });
  };
  
